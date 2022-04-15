@@ -21,8 +21,8 @@ public class ServerHandler implements Runnable{
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String line = inFromClient.readLine();
-            System.out.println(line);
-            outToClient.println(line);
+            String [] arr = line.split(",");
+
 
 
 
