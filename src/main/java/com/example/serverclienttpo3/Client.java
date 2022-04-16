@@ -6,23 +6,33 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client {
-    private static final int PORT = 90;
-    private static Socket socket;
+    private static final int PORT = 80;
+    private static Socket socket, socket2;
     private static ServerSocket serverSocket;
     private static BufferedReader in;
     private static PrintWriter out;
 
-    public static void  startConnection() throws IOException {
-        serverSocket = new ServerSocket(PORT);
+    public static void  startConnection(String message) throws IOException {
+
         socket = new Socket("localhost", PORT);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+        out.println(message + "," + PORT);
+        out.flush();
+
+        serverSocket = new ServerSocket(90);
+        socket2 = serverSocket.accept();
+        in = new BufferedReader(new InputStreamReader(socket2.getInputStream()));
+        String line = in.readLine();
+        System.out.println(line);
+
+
+
     }
 
 
     public static void sendMessage(String message){
-        System.out.println(message);
-        out.println(message + PORT);
+        //System.out.println(message);
+        out.println(message + "," + PORT);
         out.flush();
     }
 

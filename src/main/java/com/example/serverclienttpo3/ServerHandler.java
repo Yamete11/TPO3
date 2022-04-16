@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class ServerHandler implements Runnable{
 
-    private Socket socket;
+    private Socket socket, clientSocket;
 
     public ServerHandler(Socket socket) {
         this.socket = socket;
@@ -17,11 +17,14 @@ public class ServerHandler implements Runnable{
     @Override
     public void run() {
         try {
-            PrintWriter outToClient = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String line = inFromClient.readLine();
-            String [] arr = line.split(",");
+            System.out.println(line);
+            clientSocket = new Socket("localhost", 81);
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            out.println(line);
+
 
 
 
@@ -30,4 +33,13 @@ public class ServerHandler implements Runnable{
             e.printStackTrace();
         }
     }
+
+    public void makeConnection(String message) throws IOException {
+        clientSocket = new Socket("localhost", 81);
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        out.println(message);
+        out.flush();
+    }
+
+
 }

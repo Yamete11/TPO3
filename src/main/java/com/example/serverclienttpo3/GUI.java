@@ -46,21 +46,29 @@ public class GUI extends Application {
 
         acceptButton = new Button("Accept");
         acceptButton.setOnAction(event -> {
-            stage.setScene(scene2);
-            try {
+            /*try {
                 Client.startConnection();
             } catch (IOException e) {
                 e.printStackTrace();
             }
             word = wordField.getText();
             language = languageField.getText();
-            Client.sendMessage(word + "," + language);
-            try {
+            Client.sendMessage(word + "," + language);*/
+            /*try {
+                Thread.sleep(5000);
                 message = Client.readMessage();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }*/
+            //answerLabel.setText(message);
+            word = wordField.getText();
+            language = languageField.getText();
+            try {
+                Client.startConnection(word + "," + language);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            answerLabel.setText(message);
+            stage.setScene(scene2);
         });
         cancelButton = new Button("Cancel");
         cancelButton.setOnAction(event -> {
