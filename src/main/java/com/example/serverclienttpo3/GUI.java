@@ -16,10 +16,10 @@ import java.io.IOException;
 public class GUI extends Application {
 
     GridPane grid, secondGrid;
-    Label wordLabel, languageLabel, answerLabel;
+    Label wordLabel, languageLabel, answerLabel, errorLabel;
     Button acceptButton, cancelButton, changeButton;
     ButtonBar buttonBar;
-    TextField wordField, languageField, answerField;
+    TextField wordField, languageField;
     Scene scene1, scene2;
     String word, language, message;
 
@@ -40,35 +40,33 @@ public class GUI extends Application {
 
         wordLabel = new Label("Word : ");
         languageLabel = new Label("Language : ");
+        errorLabel = new Label("");
 
         wordField = new TextField();
         languageField = new TextField();
 
         acceptButton = new Button("Accept");
         acceptButton.setOnAction(event -> {
-            /*try {
-                Client.startConnection();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            boolean check = false;
+
             word = wordField.getText();
             language = languageField.getText();
-            Client.sendMessage(word + "," + language);*/
-            /*try {
-                Thread.sleep(5000);
-                message = Client.readMessage();
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }*/
-            //answerLabel.setText(message);
-            word = wordField.getText();
-            language = languageField.getText();
+            clean();
             try {
-                Client.startConnection(word + "," + language);
+                message = Client.startConnection(word + "," + language);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            stage.setScene(scene2);
+            assert message != null;
+            if(!message.equals("nothing")){
+                check = true;
+            }
+            errorLabel.setText("Wrong language");
+            if(check){
+                answerLabel.setText(message);
+                stage.setScene(scene2);
+                errorLabel.setText("");
+            }
         });
         cancelButton = new Button("Cancel");
         cancelButton.setOnAction(event -> {
@@ -84,9 +82,10 @@ public class GUI extends Application {
         buttonBar = new ButtonBar();
         buttonBar.getButtons().addAll(acceptButton, cancelButton);
 
-        grid.add(wordLabel,0 , 0, 1, 1);
-        grid.add(languageLabel,0, 2, 1, 1);
-        grid.add(wordField, 2, 0, 1, 1);
+        grid.add(errorLabel, 2, 0, 1, 1);
+        grid.add(wordLabel,1 , 1, 1, 1);
+        grid.add(languageLabel,1, 2, 1, 1);
+        grid.add(wordField, 2, 1, 1, 1);
         grid.add(languageField, 2, 2, 1, 1);
         grid.add(buttonBar, 2, 4, 1, 1);
 

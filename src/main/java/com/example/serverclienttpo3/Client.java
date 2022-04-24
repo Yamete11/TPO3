@@ -7,36 +7,36 @@ import java.util.Scanner;
 
 public class Client {
     private static final int PORT = 80;
+    private static final int SERVER_PORT = 90;
     private static Socket socket, socket2;
     private static ServerSocket serverSocket;
-    private static BufferedReader in;
+    private static BufferedReader in, inFromServer;
     private static PrintWriter out;
 
-    public static void  startConnection(String message) throws IOException {
+    public static String  startConnection(String message) throws IOException {
 
         socket = new Socket("localhost", PORT);
         out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-        out.println(message + "," + PORT);
+        inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out.println(message + "," + SERVER_PORT);
         out.flush();
+        String answer = inFromServer.readLine();
+        if(answer.equals("nothing")){
+            out.close();
+            inFromServer.close();
+            socket.close();
+            return "nothing";
+        }
 
-        serverSocket = new ServerSocket(90);
+        serverSocket = new ServerSocket(SERVER_PORT);
         socket2 = serverSocket.accept();
         in = new BufferedReader(new InputStreamReader(socket2.getInputStream()));
         String line = in.readLine();
         System.out.println(line);
+        socket.close();
+        socket2.close();
+        serverSocket.close();
 
-
-
-    }
-
-
-    public static void sendMessage(String message){
-        //System.out.println(message);
-        out.println(message + "," + PORT);
-        out.flush();
-    }
-
-    public static String readMessage() throws IOException {
-        return in.readLine();
+        return line;
     }
 }

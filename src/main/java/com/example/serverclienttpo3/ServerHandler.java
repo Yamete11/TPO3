@@ -9,6 +9,8 @@ import java.net.Socket;
 public class ServerHandler implements Runnable{
 
     private Socket socket, clientSocket;
+    private int port;
+    boolean check;
 
     public ServerHandler(Socket socket) {
         this.socket = socket;
@@ -18,15 +20,34 @@ public class ServerHandler implements Runnable{
     public void run() {
         try {
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter outToClient = new PrintWriter(socket.getOutputStream(), true);
+
 
             String line = inFromClient.readLine();
-            System.out.println(line);
-            clientSocket = new Socket("localhost", 81);
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            out.println(line);
+            String [] arr = line.split(",");
+            String answer = "";
 
+            if(arr[1].equals("PL")){
+                port = 81;
 
+            } else if(arr[1].equals("UA")){
+                port = 82;
+            } else {
+                answer = "nothing";
+            }
 
+            outToClient.println(answer);
+
+            /*socket.close();
+            inFromClient.close();
+            outToClient.close();*/
+
+            if(answer.equals("")){
+                System.out.println(line);
+                clientSocket = new Socket("localhost", port);
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                out.println(line);
+            }
 
 
         } catch (IOException e) {
@@ -34,12 +55,12 @@ public class ServerHandler implements Runnable{
         }
     }
 
-    public void makeConnection(String message) throws IOException {
+    /*public void makeConnection(String message) throws IOException {
         clientSocket = new Socket("localhost", 81);
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         out.println(message);
         out.flush();
-    }
+    }*/
 
 
 }
