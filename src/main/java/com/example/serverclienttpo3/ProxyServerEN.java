@@ -9,32 +9,33 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProxyServerUA{
+public class ProxyServerEN {
 
     private static Socket socket, socket2;
     private static ServerSocket serverSocket;
     private static BufferedReader in;
     private static PrintWriter out;
-    private static  Map<String, String> map;
+    private static Map<String, String> map;
     private static String answer;
+
 
 
 
     public static void main(String[] args) {
         map = new HashMap<>();
-        map.put("planeta", "планета");
-        map.put("lodowka", "холодильник");
-        map.put("szpital", "лікарні");
-        map.put("jedzenie", "їжа");
-        map.put("pieniądze", "гроші");
-        map.put("stół", "стіл");
-        map.put("samolot", "літак");
-        map.put("krzesło", "стілець");
-        map.put("światło", "світло");
-        map.put("ptak", "птах");
+        map.put("planeta" ,"planet");
+        map.put("lodowka", "fridge");
+        map.put("szpital", "hospital");
+        map.put("jedzenie", "food");
+        map.put("pieniądze", "money");
+        map.put("stół", "table");
+        map.put("samolot", "plane");
+        map.put("krzesło", "chair");
+        map.put("światło", "light");
+        map.put("ptak", "bird");
         try{
             while(true){
-                serverSocket = new ServerSocket(82);
+                serverSocket = new ServerSocket(81);
                 socket = serverSocket.accept();
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String [] line = in.readLine().split(",");
@@ -63,5 +64,6 @@ public class ProxyServerUA{
             e.printStackTrace();
         }
     }
+
 
 }

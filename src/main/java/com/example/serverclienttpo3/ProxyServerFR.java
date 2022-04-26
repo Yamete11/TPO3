@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProxyServerPL{
+public class ProxyServerFR {
 
     private static Socket socket, socket2;
     private static ServerSocket serverSocket;
@@ -23,19 +23,19 @@ public class ProxyServerPL{
 
     public static void main(String[] args) {
         map = new HashMap<>();
-        map.put("planet", "planeta");
-        map.put("fridge", "lodowka");
-        map.put("hospital", "szpital");
-        map.put("food", "jedzenie");
-        map.put("money", "pieniądze");
-        map.put("table", "stół");
-        map.put("plane", "samolot");
-        map.put("chair", "krzesło");
-        map.put("light", "światło");
-        map.put("bird", "ptak");
+        map.put("planeta", "planète");
+        map.put("lodowka", "frigo");
+        map.put("szpital", "hospitalier");
+        map.put("jedzenie", "aliments");
+        map.put("pieniądze", "de l'argent");
+        map.put("stół", "table");
+        map.put("samolot", "avion");
+        map.put("krzesło", "chaise");
+        map.put("światło", "légère");
+        map.put("ptak", "oiseau");
         try{
             while(true){
-                serverSocket = new ServerSocket(81);
+                serverSocket = new ServerSocket(83);
                 socket = serverSocket.accept();
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String [] line = in.readLine().split(",");
@@ -64,6 +64,4 @@ public class ProxyServerPL{
             e.printStackTrace();
         }
     }
-
-
 }

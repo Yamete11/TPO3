@@ -27,11 +27,12 @@ public class ServerHandler implements Runnable{
             String [] arr = line.split(",");
             String answer = "";
 
-            if(arr[1].equals("PL")){
+            if(arr[1].equals("EN")){
                 port = 81;
-
             } else if(arr[1].equals("UA")){
                 port = 82;
+            } else if(arr[1].equals("FR")){
+                port = 83;
             } else {
                 answer = "nothing";
             }
@@ -54,13 +55,6 @@ public class ServerHandler implements Runnable{
             e.printStackTrace();
         }
     }
-
-    /*public void makeConnection(String message) throws IOException {
-        clientSocket = new Socket("localhost", 81);
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        out.println(message);
-        out.flush();
-    }*/
 
 
 }
